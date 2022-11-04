@@ -698,10 +698,7 @@ local drawing = {} do
                             else
                                 v = mtobjs[customproperties.Parent].Position + udim2tovector2(v, mtobjs[customproperties.Parent].Size)
                             end
-                        else
-                            local newpos = udim2tovector2(v, workspace.CurrentCamera.ViewportSize)
-                            objpositions[obj] = newpos
-                            v = udim2tovector2(v, workspace.CurrentCamera.ViewportSize)
+                        
                         end
 
                         customproperties.AbsolutePosition = v
@@ -783,8 +780,7 @@ local drawing = {} do
 
                         if customproperties.Parent then
                             v = udim2tovector2(v, mtobjs[customproperties.Parent].Size)
-                        else
-                            v = udim2tovector2(v, workspace.CurrentCamera.ViewportSize)
+                        
                         end
 
                         if customproperties.Parent and listobjs[customproperties.Parent] then
