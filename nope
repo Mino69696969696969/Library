@@ -2077,7 +2077,7 @@ function library.createslider(min, max, parent, text, default, float, flag, call
         if not  sliding then
             slider.Color = utility.changecolor(library.theme["Object Background"], 3)
 
-            sliding = true
+            sliding = false
         end
     end)
 
