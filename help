@@ -2076,7 +2076,7 @@ function library.createslider(min, max, parent, text, default, float, flag, call
         mouseover = true
         if not sliding then
             slider.Color = utility.changecolor(library.theme["Object Background"], 3)
-
+            mouseover = false
             sliding = false
         end
     end)
@@ -2086,6 +2086,7 @@ function library.createslider(min, max, parent, text, default, float, flag, call
         if not sliding then
             slider.Color = library.theme["Object Background"]
 
+            mouseover = false
             sliding = false
         end
     end)
@@ -2115,6 +2116,7 @@ function library.createslider(min, max, parent, text, default, float, flag, call
     utility.connect(fill.InputBegan, function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
             sliding = true
+            mouseover = true
             slider.Color = utility.changecolor(library.theme["Object Background"], 6)
             slide(input)
         end
@@ -2123,6 +2125,7 @@ function library.createslider(min, max, parent, text, default, float, flag, call
     utility.connect(fill.InputEnded, function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
             sliding = false
+            mouseover = false
             slider.Color = mouseover and utility.changecolor(library.theme["Object Background"], 3) or library.theme["Object Background"]
         end
     end)
