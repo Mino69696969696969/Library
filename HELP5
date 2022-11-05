@@ -2439,7 +2439,7 @@ function library.createcolorpicker(default, defaultalpha, parent, count, flag, c
 
     saturation.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            slidingsaturation = true
+            slidingsaturation = false
             updatesatval(input)
         end
     end)
@@ -2465,7 +2465,7 @@ function library.createcolorpicker(default, defaultalpha, parent, count, flag, c
 
     hueframe.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            slidinghue = true
+            slidinghue = false
             updatehue(input)
         end
     end)
@@ -2489,7 +2489,7 @@ function library.createcolorpicker(default, defaultalpha, parent, count, flag, c
 
     alphaframe.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            slidingalpha = true
+            slidingalpha = false
             updatealpha(input)
         end
     end)
