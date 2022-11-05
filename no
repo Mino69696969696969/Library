@@ -2083,8 +2083,8 @@ function library.createslider(min, max, parent, text, default, float, flag, call
         mouseover = false
         if not sliding then
             slider.Color = library.theme["Object Background"]
-
-            return true
+            
+            sliding = true
         end
     end)
     
