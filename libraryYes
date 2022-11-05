@@ -2073,14 +2073,14 @@ function library.createslider(min, max, parent, text, default, float, flag, call
     local mouseover = false
 
     slider.MouseEnter:Connect(function()
-        mouseover = false
+        mouseover = true
         if not sliding then
             slider.Color = utility.changecolor(library.theme["Object Background"], 3)
         end
     end)
 
     slider.MouseLeave:Connect(function()
-        mouseover = false
+        mouseover = true
         if not sliding then
             slider.Color = library.theme["Object Background"]
         end
