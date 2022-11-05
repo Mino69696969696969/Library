@@ -237,7 +237,7 @@ local drawing = {} do
 
                 if obj.Visible then
                     if ismouseover(obj) then
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 and not mouseoverhighersquare(obj) then
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 and  then
                             if signals.MouseButton1Up then
                                 signals.MouseButton1Up:Fire()
                             end
@@ -248,7 +248,7 @@ local drawing = {} do
                             end
                         end
 
-                        if input.UserInputType == Enum.UserInputType.MouseButton2 and not mouseoverhighersquare(obj) then
+                        if input.UserInputType == Enum.UserInputType.MouseButton2 and  then
                             if signals.MouseButton2Clicked then
                                 signals.MouseButton2Clicked:Fire()
                             end
@@ -297,14 +297,14 @@ local drawing = {} do
         for obj, signals in next, objsignals do
             if objexists[obj] then
                 if obj.Visible then
-                    if ismouseover(obj) and not mouseoverhighersquare(obj) then 
+                    if ismouseover(obj) and  then 
                         signals.inputbegan[input] = true
 
                         if signals.InputBegan then
                             signals.InputBegan:Fire(input, gpe)
                         end
 
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 and (not mouseoverhighersquare(obj) or obj.Transparency == 0) then
+                        if input.UserInputType == Enum.UserInputType.MouseButton1  ( or obj.Transparency == 0) then
                             signals.mouse1down = true
 
                             if signals.MouseButton1Down then
