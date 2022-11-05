@@ -217,7 +217,9 @@ local drawing = {} do
     local function mouseoverhighersquare(obj)
         for _, square in next, squares do
             if square.Visible == true and square.ZIndex > obj.ZIndex then
-                
+                if ismouseover(square) then
+                    return true
+                end
             end
         end
     end
@@ -233,8 +235,30 @@ local drawing = {} do
                     end
                 end
 
-                
-                end --
+                if obj.Visible then
+                    if ismouseover(obj) then
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 and not mouseoverhighersquare(obj) then
+                            if signals.MouseButton1Up then
+                                signals.MouseButton1Up:Fire()
+                            end
+
+                            if signals.mouse1down and signals.MouseButton1Click then
+                                signals.mouse1down = false
+                                signals.MouseButton1Click:Fire()
+                            end
+                        end
+
+                        if input.UserInputType == Enum.UserInputType.MouseButton2 and not mouseoverhighersquare(obj) then
+                            if signals.MouseButton2Clicked then
+                                signals.MouseButton2Clicked:Fire()
+                            end
+
+                            if signals.MouseButton2Up then
+                                signals.MouseButton2Up:Fire()
+                            end
+                        end
+                    end
+                end
             end
         end
     end)
@@ -242,7 +266,29 @@ local drawing = {} do
     services.InputService.InputChanged:Connect(function(input, gpe)
         for obj, signals in next, objsignals do
             if objexists[obj] and obj.Visible and (signals.MouseEnter or signals.MouseMove or signals.InputChanged or signals.MouseLeave) then
-                
+                if ismouseover(obj) then
+                    if not signals.mouseentered then
+                        signals.mouseentered = true
+
+                        if signals.MouseEnter then
+                            signals.MouseEnter:Fire(input.Position)
+                        end
+
+                        if signals.MouseMoved then
+                            signals.MouseMoved:Fire(input.Position)
+                        end
+                    end
+
+                    if signals.InputChanged then
+                        signals.InputChanged:Fire(input, gpe)
+                    end
+                elseif signals.mouseentered then
+                    signals.mouseentered = false
+
+                    if signals.MouseLeave then
+                        signals.MouseLeave:Fire(input.Position)
+                    end
+                end
             end
         end
     end)
@@ -251,6 +297,27 @@ local drawing = {} do
         for obj, signals in next, objsignals do
             if objexists[obj] then
                 if obj.Visible then
+                    if ismouseover(obj) and not mouseoverhighersquare(obj) then 
+                        signals.inputbegan[input] = true
+
+                        if signals.InputBegan then
+                            signals.InputBegan:Fire(input, gpe)
+                        end
+
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 and (not mouseoverhighersquare(obj) or obj.Transparency == 0) then
+                            signals.mouse1down = true
+
+                            if signals.MouseButton1Down then
+                                signals.MouseButton1Down:Fire()
+                            end
+                        end
+
+                        if input.UserInputType == Enum.UserInputType.MouseButton2 and (not mouseoverhighersquare(obj) or obj.Transparency == 0) then
+                            if signals.MouseButton2Down then
+                                signals.MouseButton2Down:Fire()
+                            end
+                        end
+                    end
                 end
             end
         end
@@ -1584,7 +1651,7 @@ function library.createdropdown(holder, content, flag, callback, default, max, s
     local mouseover = false
 
     dropdown.MouseEnter:Connect(function()
-        mouseover = true
+        mouseover = false
         dropdown.Color = utility.changecolor(library.theme["Object Background"], 3)
     end)
 
@@ -2006,14 +2073,14 @@ function library.createslider(min, max, parent, text, default, float, flag, call
     local mouseover = false
 
     slider.MouseEnter:Connect(function()
-        mouseover = true
+        mouseover = false
         if not sliding then
             slider.Color = utility.changecolor(library.theme["Object Background"], 3)
         end
     end)
 
     slider.MouseLeave:Connect(function()
-        mouseover = true
+        mouseover = false
         if not sliding then
             slider.Color = library.theme["Object Background"]
         end
@@ -2266,7 +2333,7 @@ function library.createcolorpicker(default, defaultalpha, parent, count, flag, c
     local mouseover = false
 
     rgbinput.MouseEnter:Connect(function()
-        mouseover = true
+        mouseover = false
         rgbinput.Color = utility.changecolor(library.theme["Object Background"], 3)
     end)
 
@@ -2912,7 +2979,7 @@ function library:Load(options)
         local mouseover = false
 
         tabtoggle.MouseEnter:Connect(function()
-            mouseover = true
+            mouseover = false
             tabtoggle.Color = tab.Visible == true and utility.changecolor(library.theme["Tab Toggle Background"], 3) or utility.changecolor(library.theme["Tab Background"], 3)
         end)
 
@@ -3144,7 +3211,7 @@ function library:Load(options)
                 local mouseover = false
 
                 button.MouseEnter:Connect(function()
-                    mouseover = true
+                    mouseover = false
                     button.Color = utility.changecolor(library.theme["Object Background"], 3)
                 end)
 
@@ -3440,7 +3507,7 @@ function library:Load(options)
                 section.Size = UDim2.new(1, 0, 0, sectioncontent.AbsoluteContentSize + 28)
 
                 box.MouseEnter:Connect(function()
-                    mouseover = true
+                    mouseover = false
                     box.Color = utility.changecolor(library.theme["Object Background"], 3)
                 end)
 
