@@ -237,7 +237,7 @@ local drawing = {} do
 
                 if obj.Visible then
                     if ismouseover(obj) then
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 and  then
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 and not mouseoverhighersquare(obj) then
                             if signals.MouseButton1Up then
                                 signals.MouseButton1Up:Fire()
                             end
@@ -248,7 +248,7 @@ local drawing = {} do
                             end
                         end
 
-                        if input.UserInputType == Enum.UserInputType.MouseButton2 and  then
+                        if input.UserInputType == Enum.UserInputType.MouseButton2 and not mouseoverhighersquare(obj) then
                             if signals.MouseButton2Clicked then
                                 signals.MouseButton2Clicked:Fire()
                             end
@@ -297,14 +297,14 @@ local drawing = {} do
         for obj, signals in next, objsignals do
             if objexists[obj] then
                 if obj.Visible then
-                    if ismouseover(obj) and  then 
+                    if ismouseover(obj) and not mouseoverhighersquare(obj) then 
                         signals.inputbegan[input] = true
 
                         if signals.InputBegan then
                             signals.InputBegan:Fire(input, gpe)
                         end
 
-                        if input.UserInputType == Enum.UserInputType.MouseButton1  ( or obj.Transparency == 0) then
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 and (not mouseoverhighersquare(obj) or obj.Transparency == 0) then
                             signals.mouse1down = true
 
                             if signals.MouseButton1Down then
@@ -563,7 +563,11 @@ local drawing = {} do
 
                             listcontents[customproperties.Parent] = listcontents[customproperties.Parent] - listadds[customproperties.Parent][obj]
             
-                            
+                            for i, object in next, objchildren[customproperties.Parent] do
+                                if i > objindex then
+                                    object.Position = object.Position - Vector2.new(0, listadds[customproperties.Parent][obj])
+                                end
+                            end
 
                             if table.find(listchildren[customproperties.Parent], obj) then
                                 table.remove(listchildren[customproperties.Parent], table.find(listchildren[customproperties.Parent], obj))
@@ -1647,7 +1651,7 @@ function library.createdropdown(holder, content, flag, callback, default, max, s
     local mouseover = false
 
     dropdown.MouseEnter:Connect(function()
-        mouseover = false
+        mouseover = true
         dropdown.Color = utility.changecolor(library.theme["Object Background"], 3)
     end)
 
@@ -2069,7 +2073,7 @@ function library.createslider(min, max, parent, text, default, float, flag, call
     local mouseover = false
 
     slider.MouseEnter:Connect(function()
-        mouseover = false
+        mouseover = true
         if not sliding then
             slider.Color = utility.changecolor(library.theme["Object Background"], 3)
         end
@@ -2091,7 +2095,7 @@ function library.createslider(min, max, parent, text, default, float, flag, call
 
     utility.connect(slider.InputBegan, function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            sliding = false
+            sliding = true
             slider.Color = utility.changecolor(library.theme["Object Background"], 6)
             slide(input)
         end
@@ -2106,7 +2110,7 @@ function library.createslider(min, max, parent, text, default, float, flag, call
 
     utility.connect(fill.InputBegan, function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            sliding = false
+            sliding = true
             slider.Color = utility.changecolor(library.theme["Object Background"], 6)
             slide(input)
         end
@@ -2329,7 +2333,7 @@ function library.createcolorpicker(default, defaultalpha, parent, count, flag, c
     local mouseover = false
 
     rgbinput.MouseEnter:Connect(function()
-        mouseover = false
+        mouseover = true
         rgbinput.Color = utility.changecolor(library.theme["Object Background"], 3)
     end)
 
@@ -2435,7 +2439,7 @@ function library.createcolorpicker(default, defaultalpha, parent, count, flag, c
 
     saturation.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            slidingsaturation = false
+            slidingsaturation = true
             updatesatval(input)
         end
     end)
@@ -2461,7 +2465,7 @@ function library.createcolorpicker(default, defaultalpha, parent, count, flag, c
 
     hueframe.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            slidinghue = false
+            slidinghue = true
             updatehue(input)
         end
     end)
@@ -2485,7 +2489,7 @@ function library.createcolorpicker(default, defaultalpha, parent, count, flag, c
 
     alphaframe.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            slidingalpha = false
+            slidingalpha = true
             updatealpha(input)
         end
     end)
@@ -2975,7 +2979,7 @@ function library:Load(options)
         local mouseover = false
 
         tabtoggle.MouseEnter:Connect(function()
-            mouseover = false
+            mouseover = true
             tabtoggle.Color = tab.Visible == true and utility.changecolor(library.theme["Tab Toggle Background"], 3) or utility.changecolor(library.theme["Tab Background"], 3)
         end)
 
@@ -3207,7 +3211,7 @@ function library:Load(options)
                 local mouseover = false
 
                 button.MouseEnter:Connect(function()
-                    mouseover = false
+                    mouseover = true
                     button.Color = utility.changecolor(library.theme["Object Background"], 3)
                 end)
 
@@ -3503,7 +3507,7 @@ function library:Load(options)
                 section.Size = UDim2.new(1, 0, 0, sectioncontent.AbsoluteContentSize + 28)
 
                 box.MouseEnter:Connect(function()
-                    mouseover = false
+                    mouseover = true
                     box.Color = utility.changecolor(library.theme["Object Background"], 3)
                 end)
 
