@@ -563,11 +563,7 @@ local drawing = {} do
 
                             listcontents[customproperties.Parent] = listcontents[customproperties.Parent] - listadds[customproperties.Parent][obj]
             
-                            for i, object in next, objchildren[customproperties.Parent] do
-                                if i > objindex then
-                                    object.Position = object.Position - Vector2.new(0, listadds[customproperties.Parent][obj])
-                                end
-                            end
+                            
 
                             if table.find(listchildren[customproperties.Parent], obj) then
                                 table.remove(listchildren[customproperties.Parent], table.find(listchildren[customproperties.Parent], obj))
