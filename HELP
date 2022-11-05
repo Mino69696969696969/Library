@@ -217,9 +217,7 @@ local drawing = {} do
     local function mouseoverhighersquare(obj)
         for _, square in next, squares do
             if square.Visible == true and square.ZIndex > obj.ZIndex then
-                if ismouseover(square) then
-                    return true
-                end
+                
             end
         end
     end
@@ -235,30 +233,8 @@ local drawing = {} do
                     end
                 end
 
-                if obj.Visible then
-                    if ismouseover(obj) then
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 and not mouseoverhighersquare(obj) then
-                            if signals.MouseButton1Up then
-                                signals.MouseButton1Up:Fire()
-                            end
-
-                            if signals.mouse1down and signals.MouseButton1Click then
-                                signals.mouse1down = false
-                                signals.MouseButton1Click:Fire()
-                            end
-                        end
-
-                        if input.UserInputType == Enum.UserInputType.MouseButton2 and not mouseoverhighersquare(obj) then
-                            if signals.MouseButton2Clicked then
-                                signals.MouseButton2Clicked:Fire()
-                            end
-
-                            if signals.MouseButton2Up then
-                                signals.MouseButton2Up:Fire()
-                            end
-                        end
-                    end
-                end
+                
+                end --
             end
         end
     end)
@@ -266,29 +242,7 @@ local drawing = {} do
     services.InputService.InputChanged:Connect(function(input, gpe)
         for obj, signals in next, objsignals do
             if objexists[obj] and obj.Visible and (signals.MouseEnter or signals.MouseMove or signals.InputChanged or signals.MouseLeave) then
-                if ismouseover(obj) then
-                    if not signals.mouseentered then
-                        signals.mouseentered = true
-
-                        if signals.MouseEnter then
-                            signals.MouseEnter:Fire(input.Position)
-                        end
-
-                        if signals.MouseMoved then
-                            signals.MouseMoved:Fire(input.Position)
-                        end
-                    end
-
-                    if signals.InputChanged then
-                        signals.InputChanged:Fire(input, gpe)
-                    end
-                elseif signals.mouseentered then
-                    signals.mouseentered = false
-
-                    if signals.MouseLeave then
-                        signals.MouseLeave:Fire(input.Position)
-                    end
-                end
+                
             end
         end
     end)
@@ -297,27 +251,6 @@ local drawing = {} do
         for obj, signals in next, objsignals do
             if objexists[obj] then
                 if obj.Visible then
-                    if ismouseover(obj) and not mouseoverhighersquare(obj) then 
-                        signals.inputbegan[input] = true
-
-                        if signals.InputBegan then
-                            signals.InputBegan:Fire(input, gpe)
-                        end
-
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 and (not mouseoverhighersquare(obj) or obj.Transparency == 0) then
-                            signals.mouse1down = true
-
-                            if signals.MouseButton1Down then
-                                signals.MouseButton1Down:Fire()
-                            end
-                        end
-
-                        if input.UserInputType == Enum.UserInputType.MouseButton2 and (not mouseoverhighersquare(obj) or obj.Transparency == 0) then
-                            if signals.MouseButton2Down then
-                                signals.MouseButton2Down:Fire()
-                            end
-                        end
-                    end
                 end
             end
         end
