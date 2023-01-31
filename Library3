@@ -2866,9 +2866,6 @@ function library:Load(options)
         services.ContextActionService:UnbindAction("disablemousescroll")
     end)
     
-    main.MouseEnter:Connect(function()
-        services.ContextActionService:UnbindAction("enablemousescroll")
-    end)
 
     local outline = utility.outline(main, "Accent")
 
