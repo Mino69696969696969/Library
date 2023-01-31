@@ -2857,6 +2857,12 @@ function library:Load(options)
     end)
 
     main.MouseLeave:Connect(function()
+        services.ContextActionService:BindActionAtPriority("enablemousescroll", function() 
+            return Enum.ContextActionResult.Sink 
+        end, true, 3000, Enum.UserInputType.MouseWheel)
+    end)
+
+    main.MouseLeave:Connect(function()
         services.ContextActionService:UnbindAction("disablemousescroll")
     end)
 
